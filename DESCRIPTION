@@ -1,0 +1,17 @@
+Package: ReadPlink
+Title: Read Plink Data into R
+Version: 0.0.1
+Authors@R: person("Zachary", "McCaw", email = "zmccaw@g.harvard.edu", role = c("aut", "cre"))
+Description: Basic function for reading compressed plink genotypes into R.  
+Depends: R (>= 3.4.0)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+LinkingTo: 
+	Rcpp,
+	RcppArmadillo
+Imports: 
+	data.table,
+	foreach,
+	Rcpp
+RoxygenNote: 6.1.0
