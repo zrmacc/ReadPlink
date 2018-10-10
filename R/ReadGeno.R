@@ -46,7 +46,7 @@ ReadGeno = function(stem,loci=NULL,subj=NULL,keep=F,parallel=F){
   colnames(FAM) = c("FID","IID","Father","Mother","Sex","Phenotype");
   obs = nrow(FAM);
   # Subjects to retain
-  if(is.null(subj)){subj=rep(T,obs)} else {subj=(seq(1:obs)%in%subj)};
+  if(is.null(subj)){subj=rep(T,obs)};
   # Import genotypes
   if(!parallel){registerDoSEQ()};
   j = NULL;
