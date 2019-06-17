@@ -1,5 +1,5 @@
 # Purpose: Function to import genotypes from plink 
-# Updated: 180918
+# Updated: 19/03/29
 
 #' Read Genotypes from Plink
 #' 
