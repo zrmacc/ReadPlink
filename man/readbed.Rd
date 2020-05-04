@@ -7,14 +7,14 @@
 readbed(bed, obs, snp)
 }
 \arguments{
-\item{bed}{Name of the bed file.}
+\item{bed}{Name of the BED file.}
 
-\item{obs}{Number of subjects.}
+\item{obs}{Number of subjects in FAM file.}
 
-\item{snp}{Locus to select.}
+\item{snp}{SNP to import.}
 }
 \value{
-Numeric vector of genotypes at the select locus.
+Numeric vector of genotypes at the selected SNP.
 }
 \description{
 Read BED Files

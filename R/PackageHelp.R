@@ -1,13 +1,13 @@
 # Purpose: Package documentation
-# Updated: 181008
+# Updated: 20/05/03
 
 #' @useDynLib ReadPlink
 #' @importFrom Rcpp sourceCpp
 NULL
 
-#' ReadPlink: Reads Plink Data into R
+#' ReadPlink 
 #'
-#' Reads compressed plink data into R in additive format. See \code{\link{ReadGeno}}. 
+#' Reads Compressed PLINK Genotypes into R. See \code{\link{ReadGeno}}. 
 #'
 #' @author Zachary R. McCaw
 #' @docType package

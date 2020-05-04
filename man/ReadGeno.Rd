@@ -4,30 +4,33 @@
 \alias{ReadGeno}
 \title{Read Genotypes from Plink}
 \usage{
-ReadGeno(stem, loci = NULL, subj = NULL, keep = F, parallel = F)
+ReadGeno(
+  stem,
+  snp_rows = NULL,
+  subj_rows = NULL,
+  label_geno_cols = FALSE,
+  label_geno_rows = FALSE
+)
 }
 \arguments{
 \item{stem}{Stem of the BED, BIM, FAM files.}
 
-\item{loci}{Row numbers of desired loci in the BIM file. If omitted, all loci
+\item{snp_rows}{Row numbers of desired SNPs in the BIM file. If omitted, all loci
 are returned.}
 
-\item{subj}{Row numbers of desired subjects in the FAM files. If omitted, all
+\item{subj_rows}{Row numbers of desired subjects in the FAM files. If omitted, all
 subjects are turned.}
 
-\item{keep}{Return BIM and FAM files in addition to genotypes?}
+\item{label_geno_cols}{Label columns of genotype matrix with SNP names?}
 
-\item{parallel}{Run in parallel? Must register parallel backend first.}
+\item{label_geno_rows}{Label rows of genotype matrix with subject IIDs?}
 }
 \value{
-Either a numeric genotype matrix, or a list containing the genotype
-  matrix together with the imported BIM and FAM files.
+Number subject by SNP genotype matrix.
 }
 \description{
 Reads compressed plink genotypes into R. Specify the \code{stem} of the input
 files, excluding extensions. The user can choose to retain only certain loci 
 from the BIM file, or subjects from the FAM file. Genotypes are formatted
-into a numeric matrix, with subjects as rows and loci as columns. If \code{keep=T},
-the BIM and FAM files for selected loci and subjects are additionally returned. 
-If \code{parallel=T}, the genotypes are imported in parallel.
+into a numeric matrix, with subjects as rows and loci as columns.
 }

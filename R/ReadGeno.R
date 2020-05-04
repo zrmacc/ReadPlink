@@ -1,70 +1,91 @@
 # Purpose: Function to import genotypes from plink 
-# Updated: 19/03/29
+# Updated: 20/05/03
 
 #' Read Genotypes from Plink
 #' 
 #' Reads compressed plink genotypes into R. Specify the \code{stem} of the input
 #' files, excluding extensions. The user can choose to retain only certain loci 
 #' from the BIM file, or subjects from the FAM file. Genotypes are formatted
-#' into a numeric matrix, with subjects as rows and loci as columns. If \code{keep=T},
-#' the BIM and FAM files for selected loci and subjects are additionally returned. 
-#' If \code{parallel=T}, the genotypes are imported in parallel. 
+#' into a numeric matrix, with subjects as rows and loci as columns.
 #'
 #' @param stem Stem of the BED, BIM, FAM files.
-#' @param loci Row numbers of desired loci in the BIM file. If omitted, all loci
+#' @param snp_rows Row numbers of desired SNPs in the BIM file. If omitted, all loci
 #'   are returned.
-#' @param subj Row numbers of desired subjects in the FAM files. If omitted, all
+#' @param subj_rows Row numbers of desired subjects in the FAM files. If omitted, all
 #'   subjects are turned.
-#' @param keep Return BIM and FAM files in addition to genotypes?
-#' @param parallel Run in parallel? Must register parallel backend first. 
+#' @param label_geno_cols Label columns of genotype matrix with SNP names?
+#' @param label_geno_rows Label rows of genotype matrix with subject IIDs?
 #' 
-#' @return Either a numeric genotype matrix, or a list containing the genotype
-#'   matrix together with the imported BIM and FAM files.
+#' @return Number subject by SNP genotype matrix. 
 #'
 #' @importFrom data.table fread
-#' @importFrom foreach foreach '%do%' '%dopar%' registerDoSEQ
 #' @export
 
-ReadGeno = function(stem,loci=NULL,subj=NULL,keep=F,parallel=F){
-  # Plink files
-  BED = paste0(stem,".bed");
-  BIM = paste0(stem,".bim");
-  FAM = paste0(stem,".fam");
-  # Input check
-  if(!file.exists(BED)){stop("BED file DNE.")};
-  if(!file.exists(BIM)){stop("BIM file DNE.")};
-  if(!file.exists(FAM)){stop("FAM file DNE.")};
-  # Import BIM
-  BIM = fread(file=BIM,sep="\t",data.table=F,header=F);
-  colnames(BIM) = c("Chr","Var","Pos","Coord","Minor","Major");
-  snps = nrow(BIM);
-  # Loci to import
-  if(is.null(loci)){loci = seq(1:snps)};
-  L = length(loci);
-  # Import FAM
-  FAM = fread(file=FAM,sep="\ ",data.table=F,header=F);
-  colnames(FAM) = c("FID","IID","Father","Mother","Sex","Phenotype");
-  obs = nrow(FAM);
-  # Subjects to retain
-  if(is.null(subj)){subj=rep(T,obs)};
-  # Import genotypes
-  if(!parallel){registerDoSEQ()};
-  j = NULL;
-  G = foreach(j=1:L,.combine=cbind,.inorder=T) %dopar% {
-    # Import
-    g = readbed(bed=BED,obs=obs,snp=loci[j]);
-    # Select subjects
-    g = g[subj,,drop=F];
-    return(g);
-  }
-  # Formatting
-  rownames(G) = FAM[subj,"IID"];
-  colnames(G) = BIM[loci,"Var"];
-  # Output
-  if(!keep){
-    Out = G;
+ReadGeno <- function(stem, 
+                     snp_rows = NULL, 
+                     subj_rows = NULL, 
+                     label_geno_cols = FALSE,
+                     label_geno_rows = FALSE){
+  
+  # PLINK file names.
+  BED <- paste0(stem, ".bed")
+  BIM <- paste0(stem, ".bim")
+  FAM <- paste0(stem, ".fam")
+  
+  # Check PLINK files all exist. 
+  if(!file.exists(BED)){stop("BED file DNE.")}
+  if(!file.exists(BIM)){stop("BIM file DNE.")}
+  if(!file.exists(FAM)){stop("FAM file DNE.")}
+  
+  # Import BIM, if necessary.
+  if(is.null(snp_rows)){
+    bim <- fread(file = BIM, sep = "\t", header = FALSE, select = c(2))
+    n_snps <- nrow(bim)
+    snp_rows <- seq(1:n_snps)
   } else {
-    Out = list("G"=G,"BIM"=BIM[loci,,drop=F],"FAM"=FAM[subj,,drop=F]);
+    snp_rows <- unique(snp_rows)
+    n_snps <- length(snp_rows)
   }
-  return(Out);
+  
+  # Import FAM file, if necessary.
+  if(is.null(subj_rows)){
+    fam <- fread(file = FAM, sep = "\ ", header = FALSE, select = c(2))
+    n_subj <- nrow(fam)
+    subj_rows <- seq(1:n_subj)
+  } else {
+    subj_rows <- unique(subj_rows)
+    # Get total number of subjects.
+    sys_call <- paste0('wc -l ', FAM)
+    sys_output <- trimws(system(sys_call, intern = TRUE))
+    n_subj <- as.integer(gsub(pattern = "([0-9]+).*", replacement = "\\1", x = sys_output))
+  }
+  
+  # Genotypes
+  aux <- function(j){
+    genotypes <- readbed(bed = BED, obs = n_subj , snp = snp_rows[j])
+    # Select subjects
+    genotypes <- genotypes[subj_rows, , drop = FALSE]
+  }
+  
+  geno_matrix <- lapply(seq(1:n_snps), aux)
+  geno_matrix <- do.call(cbind, geno_matrix)
+  
+  # Apply col names, if requested. 
+  if(label_geno_cols){
+    if(!exists("bim")){
+      bim <- fread(file = BIM, sep = "\t", header = FALSE, select = c(2))
+    }
+    colnames(geno_matrix) <- bim[[1]][snp_rows]
+  }
+  
+  # Apply row names, if requested.
+  if(label_geno_rows){
+    if(!exists("fam")){
+      fam <- fread(file = FAM, sep = "\ ", header = FALSE, select = c(2))
+    }
+    rownames(geno_matrix) <- fam[[1]][subj_rows]
+  }
+  
+  # Output
+  return(geno_matrix)
 }

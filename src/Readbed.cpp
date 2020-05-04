@@ -1,5 +1,5 @@
 // Purpose: Function to read .bed files
-// Updated: 181007
+// Updated: 20/05/03
 
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
@@ -10,12 +10,12 @@
 
 //' Read BED Files
 //' 
-//' @param bed Name of the bed file.
-//' @param obs Number of subjects.
-//' @param snp Locus to select.  
+//' @param bed Name of the BED file.
+//' @param obs Number of subjects in FAM file.
+//' @param snp SNP to import.  
 //' 
-//' @return Numeric vector of genotypes at the select locus. 
-//' 
+//' @return Numeric vector of genotypes at the selected SNP. 
+//' @export 
 // [[Rcpp::export]]
 
 SEXP readbed(const char* bed, const double obs, const int snp){
@@ -83,6 +83,8 @@ SEXP readbed(const char* bed, const double obs, const int snp){
       }; // End observation index check 
     }; // End loop over bits 
   }; // End loop over bytes
+  // Close file
+  is.close();
   // Output
   return Rcpp::wrap(geno);
 }

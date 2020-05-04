@@ -3,10 +3,9 @@
 \docType{package}
 \name{ReadPlink}
 \alias{ReadPlink}
-\alias{ReadPlink-package}
-\title{ReadPlink: Reads Plink Data into R}
+\title{ReadPlink}
 \description{
-Reads compressed plink data into R in additive format. See \code{\link{ReadGeno}}.
+Reads Compressed PLINK Genotypes into R. See \code{\link{ReadGeno}}.
 }
 \author{
 Zachary R. McCaw

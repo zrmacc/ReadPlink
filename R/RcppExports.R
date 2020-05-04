@@ -3,12 +3,12 @@
 
 #' Read BED Files
 #' 
-#' @param bed Name of the bed file.
-#' @param obs Number of subjects.
-#' @param snp Locus to select.  
+#' @param bed Name of the BED file.
+#' @param obs Number of subjects in FAM file.
+#' @param snp SNP to import.  
 #' 
-#' @return Numeric vector of genotypes at the select locus. 
-#' 
+#' @return Numeric vector of genotypes at the selected SNP. 
+#' @export 
 readbed <- function(bed, obs, snp) {
     .Call('_ReadPlink_readbed', PACKAGE = 'ReadPlink', bed, obs, snp)
 }
