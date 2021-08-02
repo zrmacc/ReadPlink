@@ -7,7 +7,7 @@ NULL
 
 #' ReadPlink 
 #'
-#' Reads Compressed PLINK Genotypes into R. See \code{\link{ReadGeno}}. 
+#' Provides \code{\link{ReadGeno}} for reading compressed PLINK genotypes into R.
 #'
 #' @author Zachary R. McCaw
 #' @docType package

@@ -4,29 +4,19 @@
 \alias{ReadGeno}
 \title{Read Genotypes from Plink}
 \usage{
-ReadGeno(
-  stem,
-  snp_rows = NULL,
-  subj_rows = NULL,
-  label_geno_cols = FALSE,
-  label_geno_rows = FALSE
-)
+ReadGeno(stem, bim_rows = NULL, fam_rows = NULL)
 }
 \arguments{
 \item{stem}{Stem of the BED, BIM, FAM files.}
 
-\item{snp_rows}{Row numbers of desired SNPs in the BIM file. If omitted, all loci
+\item{bim_rows}{Row numbers of desired SNPs in the BIM file. If omitted, all loci
 are returned.}
 
-\item{subj_rows}{Row numbers of desired subjects in the FAM files. If omitted, all
+\item{fam_rows}{Row numbers of desired subjects in the FAM files. If omitted, all
 subjects are turned.}
-
-\item{label_geno_cols}{Label columns of genotype matrix with SNP names?}
-
-\item{label_geno_rows}{Label rows of genotype matrix with subject IIDs?}
 }
 \value{
-Number subject by SNP genotype matrix.
+Numeric subject by SNP genotype matrix.
 }
 \description{
 Reads compressed plink genotypes into R. Specify the \code{stem} of the input

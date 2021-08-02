@@ -3,5 +3,4 @@
 export(ReadGeno)
 export(readbed)
 importFrom(Rcpp,sourceCpp)
-importFrom(data.table,fread)
 useDynLib(ReadPlink)
