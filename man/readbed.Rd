@@ -9,7 +9,7 @@ readbed(bed, obs, snp)
 \arguments{
 \item{bed}{Name of the BED file.}
 
-\item{obs}{Number of subjects in FAM file.}
+\item{obs}{Total number of subjects in FAM file.}
 
 \item{snp}{SNP to import.}
 }

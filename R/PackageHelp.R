@@ -1,8 +1,14 @@
 # Purpose: Package documentation
-# Updated: 20/05/03
+# Updated: 2023-07-06
 
-#' @useDynLib ReadPlink
+## usethis namespace: start
+#' @useDynLib ReadPlink, .registration = TRUE
+## usethis namespace: end
+NULL
+
+## usethis namespace: start
 #' @importFrom Rcpp sourceCpp
+## usethis namespace: end
 NULL
 
 #' ReadPlink 

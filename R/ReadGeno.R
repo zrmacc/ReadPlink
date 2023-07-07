@@ -1,5 +1,4 @@
-# Purpose: Function to import genotypes from plink 
-# Updated: 2021-08-01
+# Updated: 2023-07-06
 
 #' Read Genotypes from Plink
 #' 
@@ -15,7 +14,6 @@
 #'   subjects are turned.
 #' @return Numeric subject by SNP genotype matrix. 
 #' @export
-
 ReadGeno <- function(
   stem, 
   bim_rows = NULL, 
@@ -35,9 +33,8 @@ ReadGeno <- function(
   # Import BIM.
   bim_data <- data.table::fread(
     file = bim_file,
-    sep = "\t",
     header = FALSE,
-    select = c(2),
+    select = 2,
     col.names = "snp"
   )
   
@@ -49,9 +46,8 @@ ReadGeno <- function(
   # Import FAM file.
   fam_data <- data.table::fread(
     file = fam_file,
-    sep = "\ ",
     header = FALSE,
-    select = c(2),
+    select = 2,
     col.names = "id"
   )
   
@@ -71,3 +67,4 @@ ReadGeno <- function(
   dimnames(geno_matrix) <- list(fam_data$id[fam_rows], bim_data$snp[bim_rows])
   return(geno_matrix)
 }
+

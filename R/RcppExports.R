@@ -4,7 +4,7 @@
 #' Read BED Files
 #' 
 #' @param bed Name of the BED file.
-#' @param obs Number of subjects in FAM file.
+#' @param obs Total number of subjects in FAM file.
 #' @param snp SNP to import.  
 #' 
 #' @return Numeric vector of genotypes at the selected SNP. 
