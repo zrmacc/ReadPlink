@@ -7,15 +7,16 @@
 readbed(bed, obs, snp)
 }
 \arguments{
-\item{bed}{Name of the BED file.}
+\item{bed}{Path to the BED file.}
 
-\item{obs}{Total number of subjects in FAM file.}
+\item{obs}{Total number of subjects (rows) in the FAM file.}
 
-\item{snp}{SNP to import.}
+\item{snp}{1-based index of the SNP to read.}
 }
 \value{
-Numeric vector of genotypes at the selected SNP.
+Numeric vector of genotypes (0, 1, 2, or NA) at the selected SNP.
 }
 \description{
-Read BED Files
+Low-level reader for a single SNP from a PLINK binary BED file (SNP-major
+mode).
 }

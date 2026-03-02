@@ -7,20 +7,21 @@
 ReadGeno(stem, bim_rows = NULL, fam_rows = NULL)
 }
 \arguments{
-\item{stem}{Stem of the BED, BIM, FAM files.}
+\item{stem}{Stem of the BED, BIM, FAM files (path without extension).}
 
-\item{bim_rows}{Row numbers of desired SNPs in the BIM file. If omitted, all loci
-are returned.}
+\item{bim_rows}{Row numbers of desired SNPs in the BIM file. If omitted, all
+loci are returned.}
 
-\item{fam_rows}{Row numbers of desired subjects in the FAM files. If omitted, all
-subjects are turned.}
+\item{fam_rows}{Row numbers of desired subjects in the FAM file. If omitted,
+all subjects are returned.}
 }
 \value{
-Numeric subject by SNP genotype matrix.
+Numeric subject-by-SNP genotype matrix (subjects as rows, SNPs as
+  columns).
 }
 \description{
-Reads compressed plink genotypes into R. Specify the \code{stem} of the input
-files, excluding extensions. The user can choose to retain only certain loci 
+Reads compressed PLINK genotypes into R. Specify the \code{stem} of the input
+files, excluding extensions. The user can choose to retain only certain loci
 from the BIM file, or subjects from the FAM file. Genotypes are formatted
 into a numeric matrix, with subjects as rows and loci as columns.
 }

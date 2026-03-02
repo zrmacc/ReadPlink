@@ -2,14 +2,31 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' Read BED Files
-#' 
-#' @param bed Name of the BED file.
-#' @param obs Total number of subjects in FAM file.
-#' @param snp SNP to import.  
-#' 
-#' @return Numeric vector of genotypes at the selected SNP. 
-#' @export 
+#'
+#' Low-level reader for a single SNP from a PLINK binary BED file (SNP-major
+#' mode).
+#'
+#' @param bed Path to the BED file.
+#' @param obs Total number of subjects (rows) in the FAM file.
+#' @param snp 1-based index of the SNP to read.
+#' @return Numeric vector of genotypes (0, 1, 2, or NA) at the selected SNP.
+#' @export
 readbed <- function(bed, obs, snp) {
-    .Call('_ReadPlink_readbed', PACKAGE = 'ReadPlink', bed, obs, snp)
+    .Call(`_ReadPlink_readbed`, bed, obs, snp)
+}
+
+#' Read multiple SNPs from a BED file in one pass
+#'
+#' Reads requested SNPs from a PLINK binary BED file with a single file open.
+#' Used internally by \code{\link{ReadGeno}} for efficiency.
+#'
+#' @param bed Path to the BED file.
+#' @param obs Total number of subjects (rows) in the FAM file.
+#' @param snp_indices 1-based indices of SNPs to read (integer vector).
+#' @return Numeric matrix with \code{obs} rows and \code{length(snp_indices)}
+#'   columns (one column per SNP).
+#' @keywords internal
+readbed_multi <- function(bed, obs, snp_indices) {
+    .Call(`_ReadPlink_readbed_multi`, bed, obs, snp_indices)
 }
 

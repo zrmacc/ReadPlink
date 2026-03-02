@@ -1,4 +1,4 @@
-# Purpose: Package documentation
+# Package documentation
 # Updated: 2023-07-06
 
 ## usethis namespace: start
@@ -11,11 +11,14 @@ NULL
 ## usethis namespace: end
 NULL
 
-#' ReadPlink 
+#' ReadPlink: Read PLINK binary genotype files
 #'
-#' Provides \code{\link{ReadGeno}} for reading compressed PLINK genotypes into R.
+#' Read compressed PLINK binary genotype files (BED/BIM/FAM) into R.
+#' Provides \code{\link{ReadGeno}} for reading genotypes into a matrix,
+#' \code{\link{ReadPlinkData}} for genotypes plus BIM/FAM metadata,
+#' \code{\link{readbed}} for low-level single-SNP access, and
+#' \code{\link{SamplePath}} for the path to bundled sample data.
 #'
 #' @author Zachary R. McCaw
-#' @docType package
-#' @name ReadPlink
-NULL
+#' @keywords internal
+"_PACKAGE"
